@@ -21,7 +21,7 @@ Console.WriteLine(worker.GetById(10));
 
 
 Console.WriteLine("====  Opret Person ====");
-Person person = new Person(-1,"Peter","66557744","Roskilde");
+Person person = new Person(1,"Peter","66557744","Roskilde");
 Console.WriteLine(worker.Create(person));
 
 Console.WriteLine("====  Opdater Person ====");

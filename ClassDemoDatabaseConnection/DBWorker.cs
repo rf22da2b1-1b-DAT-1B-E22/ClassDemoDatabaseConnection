@@ -104,12 +104,61 @@ namespace ClassDemoDatabaseConnection
 
         public Person Delete(int id)
         {
-            throw new NotImplementedException();
+            // finder først personen
+            Person p = GetById(id);
+            if (p is null)
+            {
+                return null;
+            }
+
+            String sql = "delete from Person where Id = @ID";
+
+            // forbindelse
+            SqlConnection conn = new SqlConnection(ConnectionString);
+            conn.Open();
+
+            SqlCommand cmd = new SqlCommand(sql, conn);
+            cmd.Parameters.AddWithValue("@ID", id);
+            
+
+            int row = cmd.ExecuteNonQuery();
+
+            if (row == 1)
+            {
+                return p;
+            }
+            else
+            {
+                return null; // eller exception
+            }
         }
 
         public Person Update(int id, Person person)
         {
-            throw new NotImplementedException();
+            String sql = "update Person set Name=@Name, Address=@Address, Phone=@Phone where Id = 1";
+
+            // forbindelse
+            SqlConnection conn = new SqlConnection(ConnectionString);
+            conn.Open();
+
+            SqlCommand cmd = new SqlCommand(sql, conn);
+            cmd.Parameters.AddWithValue("@ID", id);
+            cmd.Parameters.AddWithValue("@Name", person.Name);
+            cmd.Parameters.AddWithValue("@Address", person.Address);
+            cmd.Parameters.AddWithValue("@Phone", person.Phone);
+
+
+            int row = cmd.ExecuteNonQuery();
+
+            if (row == 1)
+            {
+                person.Id = id;
+                return person;
+            }
+            else
+            {
+                return null; // eller exception
+            }
         }
     }
 }
