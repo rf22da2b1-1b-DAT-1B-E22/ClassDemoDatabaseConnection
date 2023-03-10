@@ -2,49 +2,53 @@
 using ClassDemoDatabaseConnection;
 using ClassDemoDatabaseConnection.model;
 
-DBWorker worker = new DBWorker();
+//DoCode(new DBWorker());
+DoCode(new DBWorkerException());
 
-
-Console.WriteLine("====  Alle Personer ====");
-List<Person> personer = worker.GetAll();
-foreach (Person p in personer)
+static void DoCode(IDBWorker inWorker)
 {
-    Console.WriteLine(p);
+    IDBWorker worker = inWorker;
+
+
+    Console.WriteLine("====  Alle Personer ====");
+    List<Person> personer = worker.GetAll();
+    foreach (Person p in personer)
+    {
+        Console.WriteLine(p);
+    }
+
+
+    Console.WriteLine("====  Person id 3 findes ====");
+    Console.WriteLine(worker.GetById(3));
+
+    Console.WriteLine("====  Person id 10 findes IKKE ====");
+    try
+    {
+        Console.WriteLine(worker.GetById(10));
+    }catch(Exception ex)
+    {
+        Console.WriteLine(ex.Message);
+    }
+
+
+    Console.WriteLine("====  Opret Person ====");
+    Person person = new Person(1, "Peter", "66557744", "Roskilde");
+    Console.WriteLine(worker.Create(person));
+
+    Console.WriteLine("====  Opdater Person ====");
+    Person UpdatePerson = new Person(person.Id, "Peter Levinsky", "66557744", "Roskilde");
+    Console.WriteLine(worker.Update(person.Id, UpdatePerson));
+
+    try
+    {
+        Console.WriteLine(worker.Update(10, UpdatePerson));
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine(ex.Message);
+    }
+
+    Console.WriteLine("====  Slet Person ====");
+    Console.WriteLine(worker.Delete(person.Id));
 }
-
-
-Console.WriteLine("====  Person id 3 findes ====");
-Console.WriteLine(worker.GetById(3));
-
-Console.WriteLine("====  Person id 10 findes IKKE ====");
-Console.WriteLine(worker.GetById(10));
-
-
-Console.WriteLine("====  Opret Person ====");
-Person person = new Person(1,"Peter","66557744","Roskilde");
-Console.WriteLine(worker.Create(person));
-
-Console.WriteLine("====  Opdater Person ====");
-Person UpdatePerson = new Person(person.Id, "Peter Levinsky", "66557744", "Roskilde");
-Console.WriteLine(worker.Update(person.Id, UpdatePerson));
-
-Console.WriteLine("====  Slet Person ====");
-Console.WriteLine(worker.Delete(person.Id));
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
